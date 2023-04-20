@@ -11,29 +11,30 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 
 export default function SubCategory({ props }) {
-  console.log(props);
   const router = useRouter();
-  console.log(router.query.subcategory, router);
-
   return (
     <div
       style={{
         display: "flex",
+        width: "100%",
         gap: "15px",
-        alignItems: "center",
+        justifyContent: "center",
         paddingTop: "15px",
         flexFlow: "column wrap",
+        flexDirection: "row",
+        marginTop: "15px",
+        overflowY: "auto",
       }}
     >
-      {props.data &&
-        props.data.map((item) => {
+      {props.subCategory &&
+        props.subCategory.map((item) => {
           return (
-            <Card sx={{ maxWidth: 345 }} key={item._id}>
+            <Card sx={{ maxWidth: 345, height: 350 }} key={item._id}>
               <CardActionArea>
                 <CardMedia
                   component="img"
                   height="140"
-                  image="https://picsum.photos/id/1019/1000/600/"
+                  image={`${process.env.NEXT_PUBLIC_API_HOST_IMG}/uploads/1681876195924.jpg`}
                   alt="green iguana"
                 />
                 <CardContent>
@@ -60,10 +61,13 @@ export default function SubCategory({ props }) {
     </div>
   );
 }
-SubCategory.getInitialProps = async () => {
-  const res = await fetch("https://stankostroymash.onrender.com/api/getall");
+SubCategory.getInitialProps = async (ctx) => {
+  const attr = `?category=${ctx.query.category}&subcategory=${ctx.query.subcategory}`;
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_HOST}getSubCategory${attr}`
+  );
   const data = await res.json().then((res) => res);
   return {
-    props: { data },
+    props: { subCategory: data },
   };
 };

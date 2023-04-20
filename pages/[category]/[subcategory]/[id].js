@@ -9,16 +9,16 @@ import "react-image-gallery/styles/css/image-gallery.css";
 
 const mockData = [
   {
-    original: "https://picsum.photos/id/1018/1000/600/",
-    thumbnail: "https://picsum.photos/id/1018/250/150/",
+    original: `${process.env.NEXT_PUBLIC_API_HOST_IMG}/uploads/1681876195924.jpg`,
+    thumbnail: `${process.env.NEXT_PUBLIC_API_HOST_IMG}/uploads/1681876195924.jpg`,
   },
   {
-    original: "https://picsum.photos/id/1015/1000/600/",
-    thumbnail: "https://picsum.photos/id/1015/250/150/",
+    original: `${process.env.NEXT_PUBLIC_API_HOST_IMG}/uploads/1681876195924.jpg`,
+    thumbnail: `${process.env.NEXT_PUBLIC_API_HOST_IMG}/uploads/1681876195924.jpg`,
   },
   {
-    original: "https://picsum.photos/id/1019/1000/600/",
-    thumbnail: "https://picsum.photos/id/1019/250/150/",
+    original: `${process.env.NEXT_PUBLIC_API_HOST_IMG}/uploads/1681876195924.jpg`,
+    thumbnail: `${process.env.NEXT_PUBLIC_API_HOST_IMG}/uploads/1681876195924.jpg`,
   },
 ];
 
@@ -38,7 +38,7 @@ export default function SubCategoryId({props}) {
             showBullets
             showPlayButton={false}
             showIndex
-            showFullscreenButton={false}
+            showFullscreenButton={true}
           />
           <CardContent>
             <Typography gutterBottom variant="h5" component="div">
@@ -55,7 +55,7 @@ export default function SubCategoryId({props}) {
   );
 }
 SubCategoryId.getInitialProps = async (ctx) => {
-  const res = await fetch(`https://stankostroymash.onrender.com/api/getItem/${ctx.query.id}`);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}getItem/${ctx.query.id}`);
   const data = await res.json().then((res) => res);
   return {
     props: { data },

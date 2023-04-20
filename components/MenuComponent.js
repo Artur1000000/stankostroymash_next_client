@@ -1,17 +1,20 @@
 import React from "react";
+import List from "@mui/material/List";
 import { primaryLinks } from "./links";
-import CustomLink from "./CustomLink";
-import PopUpMenu from "./PopUpMenu";
+import MenuItemComponent from "./MenuItemComponent";
+import SearchComponent from "./SearchComponent";
 
 export default function MenuComponent() {
+
   return (
     <>
-      {primaryLinks.map((link) => {
-        if (link.child) {
-          return <PopUpMenu prop={link} key={link.id} />;
-        }
-        return <CustomLink path={link.path} key={link.id} title={link.title} />;
-      })}
+      <SearchComponent />
+      <List dense={true}>
+        {primaryLinks &&
+          primaryLinks.map((link) => {
+            return <MenuItemComponent key={link.id} link={link} />;
+          })}
+      </List>
     </>
   );
 }
