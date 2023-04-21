@@ -13,7 +13,7 @@ export default function Admin() {
     const data = new FormData(event.currentTarget);
 
     axios
-      .post(`${process.env.NEXT_PUBLIC_API_HOST}/auth`, {
+      .post(`https://stankostroymash.onrender.com/api/auth`, {
         email: data.get("email"),
         password: data.get("password"),
       })

@@ -31,7 +31,7 @@ export default function MenuItemComponent({ link }) {
   }
   return (
     <>
-      <ListItemButton onClick={handleClick}>
+      <ListItemButton onClick={handleClick} style={{color:"#000000"}}>
         <ListItemText primary={link.title} />
         {open ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>

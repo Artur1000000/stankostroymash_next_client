@@ -34,7 +34,7 @@ export default function SubCategory({ props }) {
                 <CardMedia
                   component="img"
                   height="140"
-                  image={`${process.env.NEXT_PUBLIC_API_HOST_IMG}/uploads/1681876195924.jpg`}
+                  image={"https://stankostroymash.onrender.com/uploads/1681876195924.jpg"}
                   alt="green iguana"
                 />
                 <CardContent>
@@ -64,7 +64,7 @@ export default function SubCategory({ props }) {
 SubCategory.getInitialProps = async (ctx) => {
   const attr = `?category=${ctx.query.category}&subcategory=${ctx.query.subcategory}`;
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_HOST}getSubCategory${attr}`
+    `https://stankostroymash.onrender.com/api/getSubCategory${attr}`
   );
   const data = await res.json().then((res) => res);
   return {

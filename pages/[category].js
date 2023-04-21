@@ -42,7 +42,7 @@ export default function Category({ props }) {
                   <CardMedia
                     component="img"
                     height="140"
-                    image={`${process.env.NEXT_PUBLIC_API_HOST_IMG}/uploads/1681876195924.jpg`}
+                    image={"https://stankostroymash.onrender.com/uploads/1681876195924.jpg"}
                     alt="green iguana"
                   />
                   <CardContent>
@@ -74,7 +74,7 @@ Category.getInitialProps = async (ctx) => {
   const attr = `?category=${ctx.query.category}`;
   console.log(attr);
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_HOST}getCategory${attr}`
+    `https://stankostroymash.onrender.com/api/getCategory${attr}`
   );
   const data = await res.json().then((res) => res);
   return {
