@@ -7,6 +7,15 @@ import Collapse from "@mui/material/Collapse";
 import List from "@mui/material/List";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { styled } from "@mui/material/styles";
+
+const NewStyleList = styled(List)({
+  "& .MuiTypography-root": {
+    fontSize: 14,
+    lineHeight: 0.5,
+  },
+});
+
 
 export default function MenuItemComponent({ link }) {
   const [open, setOpen] = useState(true);
@@ -36,7 +45,7 @@ export default function MenuItemComponent({ link }) {
         {open ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
       <Collapse in={open} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding dense={true}>
+        <NewStyleList component="div" disablePadding dense={true}>
           <Link
             href={`/${link.path}`}
             style={{ textDecoration: "none", color: "#000" }}
@@ -65,7 +74,7 @@ export default function MenuItemComponent({ link }) {
                 </Link>
               );
             })}
-        </List>
+        </NewStyleList>
       </Collapse>
     </>
   );

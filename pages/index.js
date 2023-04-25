@@ -41,7 +41,7 @@ export default function Index({ props }) {
   );
 }
 Index.getInitialProps = async () => {
-  const res = await fetch("https://stankostroymash.onrender.com/api/getall");
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}api/getall`);
   const data = await res.json().then((res) => res);
   return {
     props: { main: data },

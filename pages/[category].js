@@ -9,11 +9,8 @@ import {
   Typography,
 } from "@mui/material";
 import Link from "next/link";
-import { useRouter } from "next/router";
 
 export default function Category({ props }) {
-  const router = useRouter();
-
   return (
     <>
       <Head>
@@ -42,7 +39,7 @@ export default function Category({ props }) {
                   <CardMedia
                     component="img"
                     height="140"
-                    image={"https://stankostroymash.onrender.com/uploads/1681876195924.jpg"}
+                    image={`${process.env.NEXT_PUBLIC_API_HOST}uploads/1681876195924.jpg`}
                     alt="green iguana"
                   />
                   <CardContent>
@@ -57,7 +54,7 @@ export default function Category({ props }) {
                   </CardContent>
                 </CardActionArea>
                 <CardActions>
-                  <Link href={`${router.asPath}/${item._id}`}>
+                  <Link href={`${item.categoryEn}/${item.subCategoryEn}/${item._id}`}>
                     <Button size="small" color="primary">
                       Далее
                     </Button>
@@ -74,7 +71,7 @@ Category.getInitialProps = async (ctx) => {
   const attr = `?category=${ctx.query.category}`;
   console.log(attr);
   const res = await fetch(
-    `https://stankostroymash.onrender.com/api/getCategory${attr}`
+    `${process.env.NEXT_PUBLIC_API_HOST}api/getCategory${attr}`
   );
   const data = await res.json().then((res) => res);
   return {

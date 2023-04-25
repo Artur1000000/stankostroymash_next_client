@@ -1,12 +1,11 @@
-import {
-  Button,
-  Card,
-  CardActionArea,
-  CardActions,
-  CardContent,
-  CardMedia,
-  Typography,
-} from "@mui/material";
+import Button from "@mui/material/Button";
+import Card from "@mui/material/Card";
+import CardActionArea from "@mui/material/CardActionArea";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import Typography from "@mui/material/Typography";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
@@ -34,9 +33,15 @@ export default function SubCategory({ props }) {
                 <CardMedia
                   component="img"
                   height="140"
-                  image={"https://stankostroymash.onrender.com/uploads/1681876195924.jpg"}
+                  image={`${process.env.NEXT_PUBLIC_API_HOST}uploads/1681876195924.jpg`}
                   alt="green iguana"
                 />
+                {/* <Image
+                height={140}
+                width={100}
+                src={`${process.env.NEXT_PUBLIC_API_HOST}uploads/1681876195924.jpg`}
+                alt="green iguana"
+              /> */}
                 <CardContent>
                   <Typography gutterBottom variant="h5" component="div">
                     {item.title}
@@ -64,7 +69,7 @@ export default function SubCategory({ props }) {
 SubCategory.getInitialProps = async (ctx) => {
   const attr = `?category=${ctx.query.category}&subcategory=${ctx.query.subcategory}`;
   const res = await fetch(
-    `https://stankostroymash.onrender.com/api/getSubCategory${attr}`
+    `${process.env.NEXT_PUBLIC_API_HOST}api/getSubCategory${attr}`
   );
   const data = await res.json().then((res) => res);
   return {

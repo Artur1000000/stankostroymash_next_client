@@ -1,9 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
 import { IconButton } from "@mui/material";
+import SearchDialog from "./SearchDialog";
 
 export default function SearchComponent() {
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+
   return (
     <div style={{ padding: "15px 5px 5px 5px" }}>
       <TextField
@@ -12,12 +24,10 @@ export default function SearchComponent() {
         placeholder="Поиск"
         size="small"
         InputProps={{
-          startAdornment: (
+          endAdornment: (
             <IconButton
-              style={{ marginLeft: "-7px" }}
-              onClick={() => {
-                console.log(1);
-              }}
+              style={{ marginRight: "-7px" }}
+              onClick={handleClickOpen}
               size="small"
             >
               <SearchIcon />
@@ -25,6 +35,7 @@ export default function SearchComponent() {
           ),
         }}
       />
+      <SearchDialog open={open} handleClose={handleClose} />
     </div>
   );
 }

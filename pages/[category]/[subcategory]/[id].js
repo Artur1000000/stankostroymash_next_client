@@ -1,26 +1,26 @@
 import { Card, CardContent, Typography } from "@mui/material";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
 
 const mockData = [
   {
-    original: "https://stankostroymash.onrender.com/uploads/1681876195924.jpg",
-    thumbnail: "https://stankostroymash.onrender.com/uploads/1681876195924.jpg",
+    original: `${process.env.NEXT_PUBLIC_API_HOST}uploads/1681876195924.jpg`,
+    thumbnail: `${process.env.NEXT_PUBLIC_API_HOST}uploads/1681876195924.jpg`,
   },
   {
-    original: "https://stankostroymash.onrender.com/uploads/1681876195924.jpg",
-    thumbnail: "https://stankostroymash.onrender.com/uploads/1681876195924.jpg",
+    original: `${process.env.NEXT_PUBLIC_API_HOST}uploads/1681876195924.jpg`,
+    thumbnail: `${process.env.NEXT_PUBLIC_API_HOST}uploads/1681876195924.jpg`,
   },
   {
-    original: "https://stankostroymash.onrender.com/uploads/1681876195924.jpg",
-    thumbnail: "https://stankostroymash.onrender.com/uploads/1681876195924.jpg",
+    original: `${process.env.NEXT_PUBLIC_API_HOST}uploads/1681876195924.jpg`,
+    thumbnail: `${process.env.NEXT_PUBLIC_API_HOST}uploads/1681876195924.jpg`,
   },
 ];
 
 export default function SubCategoryId({ props }) {
   console.log(props);
-  const router = useRouter();
   return (
     <>
       <h1 style={{ textAlign: "center" }}>{props.data.subCategory}</h1>
@@ -47,12 +47,18 @@ export default function SubCategoryId({ props }) {
           </CardContent>
         </Card>
       </div>
+      <Image
+        height={140}
+        width={100}
+        src={`${process.env.NEXT_PUBLIC_API_HOST}uploads/1681876195924.jpg`}
+        alt="green iguana"
+      />
     </>
   );
 }
 SubCategoryId.getInitialProps = async (ctx) => {
   const res = await fetch(
-    `https://stankostroymash.onrender.com/api/getItem/${ctx.query.id}`
+    `${process.env.NEXT_PUBLIC_API_HOST}api/getItem/${ctx.query.id}`
   );
   const data = await res.json().then((res) => res);
   return {
