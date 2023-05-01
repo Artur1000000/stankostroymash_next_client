@@ -6,20 +6,24 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import axios from "axios";
+import { setCookie } from "@/utils/cookies";
+import { useRouter } from "next/router";
 
 export default function Admin() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
+  const router = useRouter();
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const data = new FormData(e.currentTarget);
 
     axios
-      .post(`https://stankostroymash.onrender.com/api/auth`, {
+      .post(`${process.env.NEXT_PUBLIC_API_HOST}api/auth`, {
         email: data.get("email"),
         password: data.get("password"),
       })
       .then(function (response) {
-        console.log(response);
-        window.localStorage.setItem("message", response.data.message);
+        console.log(response.data);
+        setCookie("token", response.data.email);
+        router.push("/");
       })
       .catch(function (error) {
         console.log(error);

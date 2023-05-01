@@ -2,8 +2,8 @@ import React from "react";
 import List from "@mui/material/List";
 import { primaryLinks } from "./links";
 import MenuItemComponent from "./MenuItemComponent";
-import SearchComponent from "./SearchComponent";
 import { styled } from "@mui/material/styles";
+import SearchComponent from "../Search/SearchComponent";
 
 const NewStyleList = styled(List)({
   "& .MuiTypography-root": {

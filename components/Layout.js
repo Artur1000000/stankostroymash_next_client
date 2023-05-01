@@ -1,6 +1,6 @@
 import HeaderComponent from "./HeaderComponent";
 import Box from "@mui/material/Box";
-import MenuComponent from "./MenuComponent";
+import MenuComponent from "./Menu/MenuComponent";
 
 const menuWidth = 240;
 
