@@ -27,6 +27,7 @@ export default function Layout({ children, data, error }) {
               height: "calc(100vh - 64px)",
               overflowY: "auto",
               borderRight: "1px solid rgba(0, 0, 0, 0.2)",
+              overflowY: "auto",
             }}
           >
             <MenuComponent data={data} error={error} />
