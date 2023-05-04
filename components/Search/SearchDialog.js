@@ -5,9 +5,21 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import { useRouter } from "next/router";
 
-export default function SearchDialog({ open, handleClose }) {
-  console.log(open);
+export default function SearchDialog({
+  open,
+  handleClose,
+  result,
+  text,
+}) {
+  const router = useRouter();
+  const openFound = () => {
+    handleClose();
+    router.replace(
+      `/${result?.categoryEn}/${result?.subCategoryEn}/${result?._id}`
+    );
+  };
   return (
     <>
       <Dialog
@@ -17,17 +29,33 @@ export default function SearchDialog({ open, handleClose }) {
         aria-labelledby="scroll-dialog-title"
         aria-describedby="scroll-dialog-description"
       >
-        <DialogTitle id="scroll-dialog-title">Поиск</DialogTitle>
+        <DialogTitle id="scroll-dialog-title">Результат</DialogTitle>
         <DialogContent>
-          <DialogContentText id="scroll-dialog-description" style={{minWidth:"400px", minHeight:"100px"}}>
-            {/* {[...new Array(50)]
-              .map(
-                () => `Cras mattis consectetur purus sit amet fermentum.
-Cras justo odio, dapibus ac facilisis in, egestas eget quam.
-Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
-              )
-              .join("\n")} */}
+          <DialogContentText
+            id="scroll-dialog-description"
+            style={{ minWidth: "400px", minHeight: "100px" }}
+          >
+            {result ? (
+              <>
+                <span>{result?.title}</span>
+                <br />
+                <span>{result?.category}</span>
+                <br />
+                <span>{result?.subCategory}</span>
+                <br />
+                <span>{result?.description}</span>
+                <br />
+                <Button
+                  size="small"
+                  color="primary"
+                  onClick={() => openFound()}
+                >
+                  Подробнее
+                </Button>
+              </>
+            ) : (
+              `${text} не найден`
+            )}
           </DialogContentText>
         </DialogContent>
         <DialogActions>

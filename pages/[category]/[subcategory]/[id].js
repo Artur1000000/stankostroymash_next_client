@@ -1,6 +1,7 @@
-import { Card, CardContent, Typography } from "@mui/material";
+import { Card, CardContent } from "@mui/material";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import Typography from "@mui/material/Typography";
 import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
 
@@ -22,9 +23,16 @@ const mockData = [
 export default function SubCategoryId({ props }) {
   console.log(props);
   return (
-    <>
-      <h1 style={{ textAlign: "center" }}>{props.data.subCategory}</h1>
-      <div style={{ width: "600px", height: "400px", margin: "30px auto" }}>
+    <div>
+      <Typography
+        gutterBottom
+        variant="h5"
+        component="div"
+        style={{ textAlign: "center" }}
+      >
+        {props.data.subCategory}
+      </Typography>
+      <div style={{ width: "600px", height: "400px", margin: "0 auto" }}>
         <Card
           variant="outlined"
           style={{ boxSizing: "border-box", padding: "15px" }}
@@ -47,13 +55,7 @@ export default function SubCategoryId({ props }) {
           </CardContent>
         </Card>
       </div>
-      <Image
-        height={140}
-        width={100}
-        src={`${process.env.NEXT_PUBLIC_API_HOST}uploads/1681876195924.jpg`}
-        alt="green iguana"
-      />
-    </>
+    </div>
   );
 }
 SubCategoryId.getInitialProps = async (ctx) => {

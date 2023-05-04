@@ -40,6 +40,7 @@ export default function Layout({ children, data, error }) {
               justifyContent: "center",
               padding: "15px 10px 5px 5px",
               boxSizing: "border-box",
+              overflowY: "auto",
             }}
           >
             {children}

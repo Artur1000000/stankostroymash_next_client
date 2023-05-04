@@ -7,32 +7,15 @@ import SearchDialog from "./SearchDialog";
 export default function SearchComponent() {
   const [open, setOpen] = useState(false);
   const [text, setText] = useState("");
+  const [result, setResult] = useState();
 
-  // const handleClickOpen = ()=>{
-  //   setOpen(true);
-
-  // }
-
-  const handleClickOpen = useCallback(async() => {
+  const handleClickOpen = useCallback(async () => {
     if (text.length) {
-
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_HOST}api/search?search=${text}`
       );
       const data = await res.json().then((res) => res);
-
-      console.log(data)
-
-      // fetch(`${process.env.NEXT_PUBLIC_API_HOST}api/search/${text}`)
-      //   .then(function (response) {
-      //     // обработка успешного запроса
-      //     console.log(response);
-      //   })
-      //   .catch(function (error) {
-      //     // обработка ошибки
-      //     console.log(error);
-      //   });
-
+      setResult(data.result);
       setOpen(true);
     }
   }, [text]);
@@ -63,7 +46,12 @@ export default function SearchComponent() {
           ),
         }}
       />
-      <SearchDialog open={open} handleClose={handleClose} />
+      <SearchDialog
+        open={open}
+        handleClose={handleClose}
+        result={result}
+        text={text}
+      />
     </div>
   );
 }

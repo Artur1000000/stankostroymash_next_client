@@ -2,7 +2,7 @@ import Head from "next/head";
 import { primaryLinks } from "@/components/Menu/links";
 import SubCategoryListBlock from "@/components/SubCategoryListBlock";
 
-export default function Index({ props }) {
+export default function Index() {
   return (
     <>
       <Head>
@@ -33,10 +33,3 @@ export default function Index({ props }) {
     </>
   );
 }
-Index.getInitialProps = async () => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}api/getall`);
-  const data = await res.json().then((res) => res);
-  return {
-    props: { main: data },
-  };
-};

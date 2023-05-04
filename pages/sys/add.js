@@ -1,16 +1,13 @@
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import { Fragment } from "react";
 import Typography from "@mui/material/Typography";
 import { useState, useRef } from "react";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import TextEditor from "@/components/TextEditor";
 import SelectCategoryWidget from "@/components/Widgets/SelectCategoryWidget";
-// import dynamic from "next/dynamic";
 import SelectSubCategoryWidget from "@/components/Widgets/SelectSubCategoryWidget";
-// const SelectSubCategoryWidget = dynamic(
-//   () => import("@/components/Widgets/SelectSubCategoryWidget"),
-//   { ssr: false }
-// );
+import axios from "axios";
 
 export default function Add() {
   const [state, setState] = useState({});
@@ -20,24 +17,36 @@ export default function Add() {
 
   const PhotosRef = useRef();
 
+  const deleteImage = async (prop) => {
+    try {
+      axios
+        .post(`${process.env.NEXT_PUBLIC_API_HOST}api/delete_image`, {
+          image: prop,
+        })
+        .then((data) => console.log(data))
+        .then(() => setPathImage((pathImage) => pathImage.filter((item)=>item!==prop)));
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const handleChangeFile = async (event) => {
     try {
       await Array.from(event.target.files).map((item) => {
         const file = new FormData();
         file.append("image", item);
-
+console.log(file)
         fetch(`${process.env.NEXT_PUBLIC_API_HOST}upload`, {
           method: "POST",
           body: file,
         })
           .then((response) => response.json())
-          .then((json) => setPathImage((pathImage) => [...pathImage, json]));
+          .then((json) => setPathImage((pathImage) => [...pathImage, json.url]));
       });
     } catch (error) {
       console.log(error);
     }
   };
-  console.log(state, pathImage);
+
   return (
     <div style={{ width: "80%", overflowY: "auto" }}>
       <Typography
@@ -112,15 +121,19 @@ export default function Add() {
         />
       </div>
       <div>{pathImage.length ? `Фото: ${pathImage.length}` : ""}</div>
-      {pathImage &&
-        pathImage.map((item) => {
-          let str = item.url.substring(1);
+      {pathImage.length>0 &&
+        pathImage.map((item, index) => {
+          let str = item.substring(1);
           return (
-            <img
-              key={item.url}
-              src={`${process.env.NEXT_PUBLIC_API_HOST}${str}`}
-              style={{ width: "300px", height: "auto", display: "block" }}
-            />
+            <Fragment key={item}>
+              <img
+                src={`${process.env.NEXT_PUBLIC_API_HOST}${str}`}
+                style={{ width: "300px", height: "auto", display: "block" }}
+              />
+              <Button color="warning" onClick={() => deleteImage(item, index)}>
+                Удалить
+              </Button>
+            </Fragment>
           );
         })}
     </div>

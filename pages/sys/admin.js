@@ -28,10 +28,6 @@ export default function Admin() {
       .catch(function (error) {
         console.log(error);
       });
-    // console.log({
-    //   email: data.get("email"),
-    //   password: data.get("password"),
-    // });
   };
 
   return (
