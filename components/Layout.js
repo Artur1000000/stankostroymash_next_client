@@ -2,7 +2,7 @@ import HeaderComponent from "./HeaderComponent";
 import Box from "@mui/material/Box";
 import MenuComponent from "./Menu/MenuComponent";
 
-const menuWidth = 240;
+const menuWidth = 300;
 
 export default function Layout({ children, data, error }) {
   return (
@@ -23,7 +23,7 @@ export default function Layout({ children, data, error }) {
         >
           <Box
             style={{
-              width: `${menuWidth}px`,
+              maxWidth: `${menuWidth}px`,
               height: "calc(100vh - 64px)",
               overflowY: "auto",
               borderRight: "1px solid rgba(0, 0, 0, 0.2)",

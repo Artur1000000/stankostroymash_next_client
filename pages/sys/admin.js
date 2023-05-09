@@ -22,8 +22,9 @@ export default function Admin() {
       })
       .then(function (response) {
         console.log(response.data);
-        setCookie("token", response.data.email);
-        router.push("/");
+        setCookie("token", response.data.token);
+        setCookie("user", response.data.user);
+        // router.push("/");
       })
       .catch(function (error) {
         console.log(error);

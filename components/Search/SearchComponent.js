@@ -3,6 +3,7 @@ import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
 import { IconButton } from "@mui/material";
 import SearchDialog from "./SearchDialog";
+import styles from "../../styles/searchComponent.module.css";
 
 export default function SearchComponent() {
   const [open, setOpen] = useState(false);
@@ -25,8 +26,9 @@ export default function SearchComponent() {
   };
 
   return (
-    <div style={{ padding: "15px 5px 5px 5px" }}>
+    <div className={styles.wrapper}>
       <TextField
+        fullWidth={true}
         id="outlined-size-small"
         defaultValue={text}
         onChange={(e) => {

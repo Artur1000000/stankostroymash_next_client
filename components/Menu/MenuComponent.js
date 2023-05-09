@@ -7,7 +7,7 @@ import SearchComponent from "../Search/SearchComponent";
 
 const NewStyleList = styled(List)({
   "& .MuiTypography-root": {
-    fontSize: 14,
+    fontSize: 16,
     lineHeight: 0.5,
   },
 });
