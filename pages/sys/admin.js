@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
@@ -6,10 +6,12 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import axios from "axios";
-import { setCookie } from "@/utils/cookies";
+import { getCookie, setCookie } from "@/utils/cookies";
 import { useRouter } from "next/router";
 
 export default function Admin() {
+  const [login, setLogin] = useState();
+  const [password, setPassword] = useState()
   const router = useRouter();
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -24,12 +26,18 @@ export default function Admin() {
         console.log(response.data);
         setCookie("token", response.data.token);
         setCookie("user", response.data.user);
-        // router.push("/");
+        router.reload(window.location.pathname)
       })
       .catch(function (error) {
         console.log(error);
       });
   };
+
+  useEffect(() => {
+    if (getCookie("token")) {
+      router.push("/sys/add");
+    }
+  }, [])
 
   return (
     <Container component="main" maxWidth="xs">
@@ -55,6 +63,7 @@ export default function Admin() {
             name="email"
             autoComplete="email"
             autoFocus
+            onChange={(e) => setLogin(e.target.value)}
           />
           <TextField
             margin="normal"
@@ -65,12 +74,14 @@ export default function Admin() {
             type="password"
             id="password"
             autoComplete="current-password"
+            onChange={(e) => setPassword(e.target.value)}
           />
           <Button
             type="submit"
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
+            disabled={!Boolean(login && password)}
           >
             Войти
           </Button>

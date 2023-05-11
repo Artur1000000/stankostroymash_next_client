@@ -1,10 +1,11 @@
 import HeaderComponent from "./HeaderComponent";
 import Box from "@mui/material/Box";
 import MenuComponent from "./Menu/MenuComponent";
+import BasicSpeedDial from "./SpeedDial";
 
 const menuWidth = 300;
 
-export default function Layout({ children, data, error }) {
+export default function Layout({ children, statusCookies, del }) {
   return (
     <>
       <Box
@@ -14,6 +15,7 @@ export default function Layout({ children, data, error }) {
         }}
       >
         <HeaderComponent />
+
         <Box
           sx={{
             display: "flex",
@@ -30,7 +32,7 @@ export default function Layout({ children, data, error }) {
               overflowY: "auto",
             }}
           >
-            <MenuComponent data={data} error={error} />
+            <MenuComponent />
           </Box>
           <Box
             style={{
@@ -41,12 +43,15 @@ export default function Layout({ children, data, error }) {
               padding: "15px 10px 5px 5px",
               boxSizing: "border-box",
               overflowY: "auto",
+              marginTop: "5px",
+              marginBottom: "15px"
             }}
           >
             {children}
           </Box>
         </Box>
       </Box>
+      {statusCookies ? <BasicSpeedDial del={del} /> : ""}
     </>
   );
 }

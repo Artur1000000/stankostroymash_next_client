@@ -1,29 +1,25 @@
 import { Card, CardContent } from "@mui/material";
-import Image from "next/image";
-import { useRouter } from "next/router";
 import Typography from "@mui/material/Typography";
+import { useEffect, useState } from "react";
 import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
 
-const mockData = [
-  {
-    original: `${process.env.NEXT_PUBLIC_API_HOST}uploads/1681876195924.jpg`,
-    thumbnail: `${process.env.NEXT_PUBLIC_API_HOST}uploads/1681876195924.jpg`,
-  },
-  {
-    original: `${process.env.NEXT_PUBLIC_API_HOST}uploads/1681876195924.jpg`,
-    thumbnail: `${process.env.NEXT_PUBLIC_API_HOST}uploads/1681876195924.jpg`,
-  },
-  {
-    original: `${process.env.NEXT_PUBLIC_API_HOST}uploads/1681876195924.jpg`,
-    thumbnail: `${process.env.NEXT_PUBLIC_API_HOST}uploads/1681876195924.jpg`,
-  },
-];
-
 export default function SubCategoryId({ props }) {
-  console.log(props);
+  const [images, setImages] = useState([]);
+
+  useEffect(() => {
+    if (props) {
+      props.data.photos.map(item => {
+        setImages(images => [...images, {
+          original: `${process.env.NEXT_PUBLIC_API_HOST}${item.substring(1)}`,
+          thumbnail: `${process.env.NEXT_PUBLIC_API_HOST}${item.substring(1)}`,
+        }])
+      })
+    }
+  }, [props])
+
   return (
-    <div>
+    <div style={{marginTop:"15px"}}>
       <Typography
         gutterBottom
         variant="h5"
@@ -38,7 +34,7 @@ export default function SubCategoryId({ props }) {
           style={{ boxSizing: "border-box", padding: "15px" }}
         >
           <ImageGallery
-            items={mockData}
+            items={images && images}
             showBullets
             showPlayButton={false}
             showIndex
@@ -48,10 +44,7 @@ export default function SubCategoryId({ props }) {
             <Typography gutterBottom variant="h5" component="div">
               {props.data.title}
             </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Lizards are a widespread group of squamate reptiles, with over
-              6,000 species, ranging across all continents except Antarctica
-            </Typography>
+            {props ? <div dangerouslySetInnerHTML={{ __html: props.data.description }}></div> : ""}
           </CardContent>
         </Card>
       </div>

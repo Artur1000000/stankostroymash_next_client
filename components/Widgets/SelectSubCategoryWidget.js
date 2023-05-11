@@ -5,11 +5,12 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { primaryLinks } from "../Menu/links";
 
-export default function SelectSubCategoryWidget({ category, disabled }) {
+export default function SelectSubCategoryWidget({ category, disabled, getSub }) {
   const [subCategoryId, setSubCategoryId] = useState("");
 
   const handleChange = (event) => {
     setSubCategoryId(event.target.value);
+    getSub(() => category.child[event.target.value])
   };
 
   useEffect(() => {

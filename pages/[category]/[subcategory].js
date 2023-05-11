@@ -5,7 +5,6 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
@@ -28,29 +27,19 @@ export default function SubCategory({ props }) {
       {props.subCategory &&
         props.subCategory.map((item) => {
           return (
-            <Card sx={{ maxWidth: 345, height: 350 }} key={item._id}>
+            <Card sx={{ maxWidth: 345, minWidth: 200, height: 350 }} key={item._id}>
               <CardActionArea>
                 <CardMedia
                   component="img"
                   height="140"
-                  image={`${process.env.NEXT_PUBLIC_API_HOST}uploads/1681876195924.jpg`}
+                  image={`${process.env.NEXT_PUBLIC_API_HOST}${item.photoPrimary}`}
                   alt="green iguana"
                 />
-                {/* <Image
-                height={140}
-                width={100}
-                src={`${process.env.NEXT_PUBLIC_API_HOST}uploads/1681876195924.jpg`}
-                alt="green iguana"
-              /> */}
                 <CardContent>
                   <Typography gutterBottom variant="h5" component="div">
                     {item.title}
                   </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    Lizards are a widespread group of squamate reptiles, with
-                    over 6,000 species, ranging across all continents except
-                    Antarctica
-                  </Typography>
+                  <div dangerouslySetInnerHTML={{ __html: item.description }}></div>
                 </CardContent>
               </CardActionArea>
               <CardActions>
