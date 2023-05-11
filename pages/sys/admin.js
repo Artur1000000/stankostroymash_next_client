@@ -26,7 +26,7 @@ export default function Admin() {
         console.log(response.data);
         setCookie("token", response.data.token);
         setCookie("user", response.data.user);
-        router.reload(window.location.pathname)
+        // router.reload(window.location.pathname)
       })
       .catch(function (error) {
         console.log(error);
