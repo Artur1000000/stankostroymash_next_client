@@ -44,7 +44,7 @@ export default function Category({ props }) {
                 image={`${process.env.NEXT_PUBLIC_API_HOST}${item.photoPrimary}`}
                 alt={item.title}
                 title={item.title}
-                description={item.shortDescription}
+                shortDescription={item.shortDescription}
                 link={`${item.categoryEn}/${item.subCategoryEn}/${item._id}`}
               />
             );

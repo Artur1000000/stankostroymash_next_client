@@ -10,7 +10,7 @@ export default function SubCategory({ props }) {
     .filter((item) => item.path === router.query.category)[0]
     .child.filter((i) => i.path === router.query.subcategory)[0].title;
 
-  return (
+    return (
     <>
       <Head>
         <title>СТАНКОСТРОЙМАШ | {title}</title>
@@ -55,7 +55,7 @@ export default function SubCategory({ props }) {
                 image={`${process.env.NEXT_PUBLIC_API_HOST}${item.photoPrimary}`}
                 alt={item.title}
                 title={item.title}
-                description={item.shortDescription}
+                shortDescription={item.shortDescription}
                 link={`${router.asPath}/${item._id}`}
               />
             );
