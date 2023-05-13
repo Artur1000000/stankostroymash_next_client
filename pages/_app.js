@@ -8,8 +8,8 @@ export default function App({ Component, pageProps }) {
   const [state, setState] = useState(false);
 
   const delCookies = () => {
-    eraseCookie("token")
-    eraseCookie("user")
+    // eraseCookie("token")
+    // eraseCookie("user")
   }
 
   const suc = async () => {
