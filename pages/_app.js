@@ -10,28 +10,31 @@ export default function App({ Component, pageProps }) {
   const delCookies = () => {
     // eraseCookie("token")
     // eraseCookie("user")
-  }
+  };
 
   const suc = async () => {
     await axios
       .post(`${process.env.NEXT_PUBLIC_API_HOST}api/get-me`, {
-        token: getCookie("token")
+        token: getCookie("token"),
       })
       .then(function (response) {
-        setState(() => response.data.success)
+        setState(() => response.data.success);
       })
       .catch(function (error) {
         console.log(error);
         delCookies();
       });
-
-  }
+  };
   useEffect(() => {
+    let token=getCookie("token");
+    if(token){
+      console.log(getCookie("token"));
       suc();
+    }
   }, []);
-
+console.log("app: ", state)
   return (
-    <Layout statusCookies={state} del={setState} >
+    <Layout statusCookies={state} del={setState}>
       <Component {...pageProps} />
     </Layout>
   );
