@@ -8,8 +8,8 @@ export default function App({ Component, pageProps }) {
   const [state, setState] = useState(false);
 
   const delCookies = () => {
-    // eraseCookie("token")
-    // eraseCookie("user")
+    eraseCookie("token")
+    eraseCookie("user")
   };
 
   const suc = async () => {
@@ -26,13 +26,8 @@ export default function App({ Component, pageProps }) {
       });
   };
   useEffect(() => {
-    let token=getCookie("token");
-    if(token){
-      console.log(getCookie("token"));
-      suc();
-    }
+    suc();
   }, []);
-console.log("app: ", state)
   return (
     <Layout statusCookies={state} del={setState}>
       <Component {...pageProps} />

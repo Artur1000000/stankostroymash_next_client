@@ -6,7 +6,6 @@ import BasicSpeedDial from "./SpeedDial";
 const menuWidth = 300;
 
 export default function Layout({ children, statusCookies, del }) {
-  console.log("layout: ", statusCookies);
   return (
     <>
       <Box
