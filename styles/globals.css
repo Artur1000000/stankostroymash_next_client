@@ -53,7 +53,7 @@ body {
 
 /* width */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 6px;
 }
 /* button */
 ::-webkit-scrollbar-button {
@@ -63,7 +63,7 @@ body {
 /* Handle */
 ::-webkit-scrollbar-thumb {
   background: #999999;
-  border-radius: 10px;
+  border-radius: 6px;
 }
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
@@ -71,7 +71,7 @@ body {
 }
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #ffffff; 
+  background: none; 
 }
 /* The track NOT covered by the handle.
 ::-webkit-scrollbar-track-piece {

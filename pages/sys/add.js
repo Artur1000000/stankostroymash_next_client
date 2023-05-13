@@ -11,9 +11,15 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { getCookie } from "@/utils/cookies";
 
+const maxLengthShortText = 200;
+const maxLengthText = 1000;
+
 export default function Add() {
   const [state, setState] = useState({});
+  const [shortText, setShortText] = useState("");
   const [text, setText] = useState("");
+  const [stateShortText, setStateShortText] = useState(true);
+  const [stateText, setStateText] = useState(true);
   const [category, setCategory] = useState();
   const [subCategory, setSubCategory] = useState();
   const [pathImage, setPathImage] = useState([]);
@@ -26,17 +32,23 @@ export default function Add() {
   const deleteImage = async (prop) => {
     const config = {
       headers: {
-        auth: getCookie("token")
-      }
+        auth: getCookie("token"),
+      },
     };
 
     try {
       axios
-        .post(`${process.env.NEXT_PUBLIC_API_HOST}api/delete_image`, {
-          image: prop,
-        }, config)
-        .then(() => PhotosRef.current.value = null)
-        .then(() => setPathImage((pathImage) => pathImage.filter((item) => item !== prop)))
+        .post(
+          `${process.env.NEXT_PUBLIC_API_HOST}api/delete_image`,
+          {
+            image: prop,
+          },
+          config
+        )
+        .then(() => (PhotosRef.current.value = null))
+        .then(() =>
+          setPathImage((pathImage) => pathImage.filter((item) => item !== prop))
+        )
         .then(() => setPhotoPrimary(""));
     } catch (error) {
       console.log(error);
@@ -51,86 +63,109 @@ export default function Add() {
         fetch(`${process.env.NEXT_PUBLIC_API_HOST}upload`, {
           method: "POST",
           headers: {
-            auth: getCookie("token")
+            auth: getCookie("token"),
           },
           body: file,
         })
           .then((response) => response.json())
           .then((json) => setPathImage((pathImage) => [...pathImage, json.url]))
-          .then((data) => PhotosRef.current.value = null);
+          .then((data) => (PhotosRef.current.value = null));
       });
     } catch (error) {
       console.log(error);
     }
   };
 
-  useEffect(() => { if (!getCookie("token")) { router.push("/"); } }, []);
+  useEffect(() => {
+    if (!getCookie("token")) {
+      router.push("/");
+    }
+  }, []);
 
   useEffect(() => {
     if (category && category.title === "Запчасти") {
       setSubCategory();
     }
-  }, [category])
+  }, [category]);
 
   const onSave = () => {
     const config = {
       headers: {
-        auth: getCookie("token")
-      }
+        auth: getCookie("token"),
+      },
     };
     if (category.title !== "Запчасти") {
       try {
         axios
-          .post(`${process.env.NEXT_PUBLIC_API_HOST}api/add_item`, {
-            state,
-            text,
-            category,
-            subCategory,
-            pathImage,
-            photoPrimary
-          }, config)
+          .post(
+            `${process.env.NEXT_PUBLIC_API_HOST}api/add_item`,
+            {
+              state,
+              shortText,
+              text,
+              category,
+              subCategory,
+              pathImage,
+              photoPrimary,
+            },
+            config
+          )
           .then(() => {
             setState({});
+            setShortText("");
             setText("");
             setCategory();
             setSubCategory();
             setPathImage([]);
             setPhotoPrimary("");
-            setSend(true)
+            setSend(true);
           });
       } catch (error) {
         console.log(error);
-        setSend(false)
+        setSend(false);
       }
     } else {
       try {
         axios
-          .post(`${process.env.NEXT_PUBLIC_API_HOST}api/add_item_duplicates`, {
-            state,
-            text,
-            category,
-            subCategory,
-            pathImage,
-            photoPrimary
-          }, config)
+          .post(
+            `${process.env.NEXT_PUBLIC_API_HOST}api/add_item_duplicates`,
+            {
+              state,
+              shortText,
+              text,
+              category,
+              subCategory,
+              pathImage,
+              photoPrimary,
+            },
+            config
+          )
           .then(() => {
             setState({});
+            setShortText("");
             setText("");
             setCategory();
             setSubCategory();
             setPathImage([]);
             setPhotoPrimary("");
-            setSend(true)
+            setSend(true);
           });
       } catch (error) {
         console.log(error);
-        setSend(false)
+        setSend(false);
       }
     }
-  }
+  };
 
   return (
-    <div style={{ width: "80%", overflowY: "auto" }}>
+    <div
+      style={{
+        width: "100%",
+        overflowY: "auto",
+        boxSizing: "border-box",
+        padding: "15px",
+      }}
+    >
       <Typography
         variant="h6"
         component="div"
@@ -158,9 +193,20 @@ export default function Add() {
           }}
         />
       </div>
-      <div style={{ padding: "15px 0px" }}>
-        <TextEditor text={text} setText={setText} />
-      </div>
+      <TextEditor
+        text={shortText}
+        setText={setShortText}
+        maxLength={maxLengthShortText}
+        placeholder="Кратное описание"
+        setStateText={setStateShortText}
+      />
+      <TextEditor
+        text={text}
+        setText={setText}
+        maxLength={maxLengthText}
+        placeholder="Описание"
+        setStateText={setStateText}
+      />
       <div style={{ padding: "15px 0px" }}>
         <TextField
           label="Цена"
@@ -215,10 +261,14 @@ export default function Add() {
                 src={`${process.env.NEXT_PUBLIC_API_HOST}${str}`}
                 style={{ width: "300px", height: "auto", display: "block" }}
               />
-              <Button color="warning" onClick={() => deleteImage(item, index)}>
+              <Button color="warning" onClick={() => deleteImage(item)}>
                 Удалить
               </Button>
-              <Button color="primary" disabled={Boolean(str === photoPrimary)} onClick={() => setPhotoPrimary(str)}>
+              <Button
+                color="primary"
+                disabled={Boolean(str === photoPrimary)}
+                onClick={() => setPhotoPrimary(str)}
+              >
                 Сделать главной
               </Button>
             </Fragment>
@@ -226,28 +276,40 @@ export default function Add() {
         })}
       <Button
         fullWidth={true}
-        disabled={category?.title !== "Запчасти" ? !Boolean(state &&
-          text &&
-          category &&
-          subCategory &&
-          pathImage &&
-          photoPrimary
-        ) :
-          !Boolean(state &&
-            text &&
-            category &&
-            pathImage &&
-            photoPrimary
-          )}
+        disabled={
+          category?.title !== "Запчасти"
+            ? !Boolean(
+                state &&
+                  text &&
+                  category &&
+                  subCategory &&
+                  pathImage &&
+                  photoPrimary &&
+                  stateShortText &&
+                  stateText
+              )
+            : !Boolean(
+                state &&
+                  text &&
+                  category &&
+                  pathImage &&
+                  photoPrimary &&
+                  stateShortText &&
+                  stateText
+              )
+        }
         variant="contained"
         color={"primary"}
         style={{ marginTop: "15px" }}
-        onClick={() => onSave()}>
+        onClick={() => onSave()}
+      >
         Сохранить
       </Button>
-      {send && <Typography component="h1" variant="h5" sx={{textAlign:"center"}}>
-        Продукт успешно добавлен
-      </Typography>}
+      {send && (
+        <Typography component="h1" variant="h5" sx={{ textAlign: "center" }}>
+          Продукт успешно добавлен
+        </Typography>
+      )}
     </div>
   );
 }

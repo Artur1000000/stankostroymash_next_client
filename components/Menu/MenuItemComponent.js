@@ -33,7 +33,7 @@ export default function MenuItemComponent({ link }) {
         style={{ textDecoration: "none", color: "#000" }}
       >
         <ListItemButton selected={"/" + link.path === router.asPath}>
-          <ListItemText sx={{ fontSize: "12px" }} primary={link.title} />
+          <ListItemText primary={link.title} />
         </ListItemButton>
       </Link>
     );

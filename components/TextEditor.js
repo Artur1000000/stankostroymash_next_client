@@ -1,5 +1,5 @@
-import React from "react";
-import dynamic from 'next/dynamic';
+import React, { useRef, useState } from "react";
+import dynamic from "next/dynamic";
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 import "react-quill/dist/quill.snow.css";
 
@@ -28,17 +28,42 @@ const formats = [
   "bullet",
   "indent",
 ];
-
-export default function TextEditor({text, setText}) {
+export default function TextEditor({
+  text,
+  setText,
+  maxLength,
+  placeholder,
+  setStateText,
+}) {
+  const [symbol, setSymbol] = useState(0);
   const handleChange = (e) => {
     setText(e);
   };
+
+  const checkCharacterCount = (event) => {
+    setSymbol(event.target.textContent.length);
+    setStateText(true);
+    if (event.key !== "Backspace") {
+      if (event.target.textContent.length >= maxLength) {
+        event.preventDefault();
+        setStateText(false);
+      }
+    }
+  };
+
   return (
-    <ReactQuill
-      value={text}
-      modules={modules}
-      formats={formats}
-      onChange={(e) => handleChange(e)}
-    />
+    <div style={{ padding: "15px 0px" }}>
+      <ReactQuill
+        onKeyDown={(e) => checkCharacterCount(e)}
+        value={text}
+        placeholder={placeholder}
+        modules={modules}
+        formats={formats}
+        onChange={(e) => handleChange(e)}
+      />
+      <span style={{ fontSize: "12px" }}>
+        {symbol} из {maxLength}
+      </span>
+    </div>
   );
 }

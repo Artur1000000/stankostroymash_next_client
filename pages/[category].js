@@ -1,22 +1,27 @@
 import Head from "next/head";
-import {
-  Button,
-  Card,
-  CardActionArea,
-  CardActions,
-  CardContent,
-  CardMedia,
-  Typography,
-} from "@mui/material";
-import Link from "next/link";
+import { useRouter } from "next/router";
+import { primaryLinks } from "@/components/Menu/links";
+import CustomCard from "@/components/CustomCard";
 
 export default function Category({ props }) {
+  const router = useRouter();
+  const myTitle = primaryLinks.filter((item) => {
+    if (item.path === router.query.category) {
+      return item;
+    }
+  });
   return (
     <>
       <Head>
-        <title>СТАНКОСТРОЙМАШ</title>
-        <meta name="keywords" content="СТАНКОСТРОЙМАШ, станкостроймаш" />
-        <meta name="description" content="СТАНКОСТРОЙМАШ, станкостроймаш" />
+        <title>СТАНКОСТРОЙМАШ | {myTitle[0].title}</title>
+        <meta
+          name="keywords"
+          content={"СТАНКОСТРОЙМАШ, станкостроймаш, " + myTitle[0].title}
+        />
+        <meta
+          name="description"
+          content={"СТАНКОСТРОЙМАШ, станкостроймаш, " + myTitle[0].title}
+        />
       </Head>
       <div
         style={{
@@ -34,29 +39,14 @@ export default function Category({ props }) {
         {props.category &&
           props.category.map((item) => {
             return (
-              <Card sx={{ maxWidth: 345, minWidth: 345, height: 350, position:"relative" }} key={item._id}>
-                <CardActionArea>
-                  <CardMedia
-                    component="img"
-                    height="140"
-                    image={`${process.env.NEXT_PUBLIC_API_HOST}${item.photoPrimary}`}
-                    alt="green iguana"
-                  />
-                  <CardContent>
-                    <Typography gutterBottom variant="h5" component="div">
-                      {item.title}
-                    </Typography>
-                    <div dangerouslySetInnerHTML={{ __html: item.description }}></div>
-                  </CardContent>
-                </CardActionArea>
-                <CardActions sx={{position:"absolute", bottom:0, background:"white", width:"100%"}}>
-                  <Link href={`${item.categoryEn}/${item.subCategoryEn}/${item._id}`}>
-                    <Button size="small" color="primary">
-                      Далее
-                    </Button>
-                  </Link>
-                </CardActions>
-              </Card>
+              <CustomCard
+                key={item._id}
+                image={`${process.env.NEXT_PUBLIC_API_HOST}${item.photoPrimary}`}
+                alt={item.title}
+                title={item.title}
+                description={item.shortDescription}
+                link={`${item.categoryEn}/${item.subCategoryEn}/${item._id}`}
+              />
             );
           })}
       </div>
@@ -65,7 +55,6 @@ export default function Category({ props }) {
 }
 Category.getInitialProps = async (ctx) => {
   const attr = `?category=${ctx.query.category}`;
-  console.log(attr);
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_HOST}api/getCategory${attr}`
   );
