@@ -4,11 +4,13 @@ import { useEffect, useState } from "react";
 import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
 import styles from "../../../styles/id.module.css";
+import { useRouter } from "next/router";
 
 export default function SubCategoryId({ props }) {
   const [images, setImages] = useState([]);
+  const router = useRouter();
   useEffect(() => {
-    if (props) {
+    if (props?.data?.photos) {
       props.data.photos.map((item) => {
         setImages((images) => [
           ...images,
@@ -20,7 +22,7 @@ export default function SubCategoryId({ props }) {
           },
         ]);
       });
-    }
+    }else{router.push("/404")}
   }, [props]);
 
   return (
