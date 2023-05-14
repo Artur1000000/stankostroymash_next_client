@@ -5,10 +5,15 @@ import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
 import styles from "../../../styles/id.module.css";
 import { useRouter } from "next/router";
+import ActBlock from "@/components/ActBlock";
+import { getCookie } from "@/utils/cookies";
+import Head from "next/head";
 
 export default function SubCategoryId({ props }) {
   const [images, setImages] = useState([]);
+  const [state, setState] = useState(false);
   const router = useRouter();
+
   useEffect(() => {
     if (props?.data?.photos) {
       props.data.photos.map((item) => {
@@ -22,49 +27,86 @@ export default function SubCategoryId({ props }) {
           },
         ]);
       });
-    }else{router.push("/404")}
+    } else {
+      router.push("/404");
+    }
+  }, [props]);
+
+  useEffect(() => {
+    if (!getCookie("token")) {
+      return setState(false);
+    }
+    setState(true);
+  }, []);
+
+  useEffect(() => {
+    if (!props) {
+      router.push("/404");
+    }
   }, [props]);
 
   return (
-    <div className={styles.wrapp}>
-      <Typography
-        gutterBottom
-        variant="h5"
-        component="div"
-        style={{ textAlign: "center" }}
-      >
-        {props.data.subCategory}
-      </Typography>
-      <div className={styles.wrappCard}>
-        <Card variant="outlined" className={styles.card}>
-          <ImageGallery
-            items={images && images}
-            showBullets
-            showPlayButton={false}
-            showIndex
-            showFullscreenButton={true}
-          />
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-              {props.data.title}
-            </Typography>
-            {props ? (
-              <div
-                dangerouslySetInnerHTML={{ __html: props.data.description }}
-              ></div>
-            ) : (
-              ""
-            )}
-            <Typography gutterBottom variant="h5" component="div">
-              Цена:{" "}
-              {Number.parseInt(props.data.price)
-                ? props.data.price + " р."
-                : props.data.price}
-            </Typography>
-          </CardContent>
-        </Card>
-      </div>
-    </div>
+    <>
+      <Head>
+        <title>СТАНКОСТРОЙМАШ | Станки</title>
+        <meta
+          name="keywords"
+          content="СТАНКОСТРОЙМАШ, станкостроймаш, станки, станок"
+        />
+        <meta
+          name="description"
+          content="СТАНКОСТРОЙМАШ, станкостроймаш, станки, станок"
+        />
+      </Head>
+      {props.data && (
+        <div className={styles.wrapp}>
+          <Typography
+            gutterBottom
+            variant="h5"
+            component="div"
+            style={{ textAlign: "center" }}
+          >
+            {props.data.subCategory}
+          </Typography>
+          <div className={styles.wrappCard}>
+            <Card variant="outlined" className={styles.card}>
+              <ImageGallery
+                items={images && images}
+                showBullets
+                showPlayButton={false}
+                showIndex
+                showFullscreenButton={true}
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                  {props.data.title}
+                </Typography>
+                {props ? (
+                  <div
+                    dangerouslySetInnerHTML={{ __html: props.data.description }}
+                  ></div>
+                ) : (
+                  ""
+                )}
+                <Typography gutterBottom variant="h5" component="div">
+                  Цена:{" "}
+                  {Number.parseInt(props.data.price)
+                    ? props.data.price + " р."
+                    : props.data.price}
+                </Typography>
+              </CardContent>
+            </Card>
+          </div>
+          {state && (
+            <ActBlock
+              title={props.data.title}
+              id={props.data._id}
+              category={props.data.categoryEn}
+            />
+          )}
+        </div>
+      )}
+    </>
   );
 }
 SubCategoryId.getInitialProps = async (ctx) => {

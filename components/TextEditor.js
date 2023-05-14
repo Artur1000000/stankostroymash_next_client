@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import dynamic from "next/dynamic";
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 import "react-quill/dist/quill.snow.css";
@@ -36,12 +36,14 @@ export default function TextEditor({
   setStateText,
 }) {
   const [symbol, setSymbol] = useState(0);
+  const [visible, setVisible] = useState(false);
   const handleChange = (e) => {
     setText(e);
   };
 
   const checkCharacterCount = (event) => {
     setSymbol(event.target.textContent.length);
+    setVisible(true);
     setStateText(true);
     if (event.key !== "Backspace") {
       if (event.target.textContent.length >= maxLength) {
@@ -61,7 +63,7 @@ export default function TextEditor({
         formats={formats}
         onChange={(e) => handleChange(e)}
       />
-      <span style={{ fontSize: "12px" }}>
+      <span style={{ fontSize: "12px", visibility: visible ? "visible" : "hidden" }}>
         {symbol} из {maxLength}
       </span>
     </div>

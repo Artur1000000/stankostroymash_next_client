@@ -10,7 +10,7 @@ export default function SubCategory({ props }) {
     .filter((item) => item.path === router.query.category)[0]
     .child.filter((i) => i.path === router.query.subcategory)[0].title;
 
-    return (
+  return (
     <>
       <Head>
         <title>СТАНКОСТРОЙМАШ | {title}</title>
@@ -43,9 +43,6 @@ export default function SubCategory({ props }) {
           }
         />
       </Head>
-      {/* <Typography gutterBottom variant="h5" component="div">
-          {title}
-        </Typography> */}
       <div className={styles.wrapper}>
         {props.subCategory &&
           props.subCategory.map((item) => {

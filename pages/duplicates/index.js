@@ -1,27 +1,19 @@
-import Head from "next/head";
-import { useRouter } from "next/router";
-import { primaryLinks } from "@/components/Menu/links";
 import CustomCard from "@/components/CustomCard";
+import Head from "next/head";
 
-export default function Category({ props }) {
-  const router = useRouter();
-  const myTitle = primaryLinks.filter((item) => {
-    if (item.path === router.query.category) {
-      return item;
-    }
-  });
+export default function Duplicates({ props }) {
 
   return (
     <>
       <Head>
-        <title>СТАНКОСТРОЙМАШ | {myTitle[0].title}</title>
+        <title>СТАНКОСТРОЙМАШ | Запчасти</title>
         <meta
           name="keywords"
-          content={"СТАНКОСТРОЙМАШ, станкостроймаш, " + myTitle[0].title}
+          content="СТАНКОСТРОЙМАШ, станкостроймаш, запчасти"
         />
         <meta
           name="description"
-          content={"СТАНКОСТРОЙМАШ, станкостроймаш, " + myTitle[0].title}
+          content="СТАНКОСТРОЙМАШ, станкостроймаш, запчасти"
         />
       </Head>
       <div
@@ -37,8 +29,8 @@ export default function Category({ props }) {
           overflowY: "auto",
         }}
       >
-        {props.category &&
-          props.category.map((item) => {
+        {props.duplicates &&
+          props.duplicates.map((item) => {
             return (
               <CustomCard
                 key={item._id}
@@ -46,7 +38,7 @@ export default function Category({ props }) {
                 alt={item.title}
                 title={item.title}
                 shortDescription={item.shortDescription}
-                link={`${item.categoryEn}/${item.subCategoryEn}/${item._id}`}
+                link={`${item.categoryEn}/${item._id}`}
               />
             );
           })}
@@ -54,13 +46,12 @@ export default function Category({ props }) {
     </>
   );
 }
-Category.getInitialProps = async (ctx) => {
-  const attr = `?category=${ctx.query.category}`;
+Duplicates.getInitialProps = async () => {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_HOST}api/getCategory${attr}`
+    `${process.env.NEXT_PUBLIC_API_HOST}api/getDuplicates`
   );
   const data = await res.json().then((res) => res);
   return {
-    props: { category: data },
+    props: { duplicates: data },
   };
 };

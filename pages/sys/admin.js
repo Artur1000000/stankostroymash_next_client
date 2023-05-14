@@ -23,7 +23,6 @@ export default function Admin() {
         password: data.get("password"),
       })
       .then(function (response) {
-        console.log(response.data);
         setCookie("token", response.data.token);
         setCookie("user", response.data.user);
         router.reload(window.location.pathname)

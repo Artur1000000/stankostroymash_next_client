@@ -1,28 +1,31 @@
-import { useState, useRef, useEffect } from "react";
 import TextField from "@mui/material/TextField";
+import { useState, useRef, useEffect } from "react";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import TextEditor from "@/components/TextEditor";
-import SelectCategoryWidget from "@/components/Widgets/SelectCategoryWidget";
-import SelectSubCategoryWidget from "@/components/Widgets/SelectSubCategoryWidget";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { getCookie } from "@/utils/cookies";
+import CategoryWidget from "@/components/Widgets/CategoryWidget";
+import SubCategoryWidget from "@/components/Widgets/SubCategoryWidget";
 
 const maxLengthShortText = 200;
 const maxLengthText = 1000;
 
-export default function Add() {
-  const [state, setState] = useState({});
-  const [shortText, setShortText] = useState("");
-  const [text, setText] = useState("");
+export default function EditId({ props }) {
+  const [state, setState] = useState({
+    title: props.data.title,
+    price: props.data.price,
+  });
+  const [shortText, setShortText] = useState(props.data.shortDescription);
+  const [text, setText] = useState(props.data.description);
   const [stateShortText, setStateShortText] = useState(true);
   const [stateText, setStateText] = useState(true);
   const [category, setCategory] = useState();
   const [subCategory, setSubCategory] = useState();
-  const [pathImage, setPathImage] = useState([]);
-  const [photoPrimary, setPhotoPrimary] = useState("");
+  const [pathImage, setPathImage] = useState(props.data.photos);
+  const [photoPrimary, setPhotoPrimary] = useState(props.data.photoPrimary);
   const router = useRouter();
 
   const PhotosRef = useRef();
@@ -94,34 +97,13 @@ export default function Add() {
         auth: getCookie("token"),
       },
     };
-    if (category.title !== "Запчасти") {
+    if (subCategory) {
       try {
         axios
           .post(
-            `${process.env.NEXT_PUBLIC_API_HOST}api/add_item`,
+            `${process.env.NEXT_PUBLIC_API_HOST}api/edit_item`,
             {
-              state,
-              shortText,
-              text,
-              category,
-              subCategory,
-              pathImage,
-              photoPrimary,
-            },
-            config
-          )
-          .then((data) => {
-            router.push(data.data.path);
-          });
-      } catch (error) {
-        console.log(error);
-      }
-    } else {
-      try {
-        axios
-          .post(
-            `${process.env.NEXT_PUBLIC_API_HOST}api/add_item_duplicates`,
-            {
+              id: props.data._id,
               state,
               shortText,
               text,
@@ -160,8 +142,9 @@ export default function Add() {
           paddingBottom: "15px",
         }}
       >
-        Добавить оборудование
+        Редактировать оборудование
       </Typography>
+
       <div style={{ padding: "15px 0px" }}>
         <TextField
           required={true}
@@ -193,7 +176,7 @@ export default function Add() {
       />
       <div style={{ padding: "15px 0px" }}>
         <TextField
-          label="Цена"
+          label={`Цена ${props.data.price}`}
           variant="outlined"
           size="small"
           fullWidth={true}
@@ -207,12 +190,16 @@ export default function Add() {
       </div>
       <div style={{ display: "flex", width: "100%" }}>
         <div style={{ width: "50%", boxSizing: "border-box", padding: "15px" }}>
-          {<SelectCategoryWidget setCategory={setCategory} />}
+          <CategoryWidget
+            category={props.data.categoryEn}
+            setCategory={setCategory}
+          />
         </div>
         <div style={{ width: "50%", boxSizing: "border-box", padding: "15px" }}>
-          <SelectSubCategoryWidget
+          <SubCategoryWidget
             getSub={setSubCategory}
             category={category}
+            defaultSubCategory={props.data.subCategoryEn}
             disabled={Boolean(!category || category.title === "Запчасти")}
           />
         </div>
@@ -247,7 +234,7 @@ export default function Add() {
         }}
       >
         {pathImage.length > 0 &&
-          pathImage.map((item) => {
+          pathImage.map((item, index) => {
             let str = item.substring(1);
             return (
               <div key={item}>
@@ -307,3 +294,22 @@ export default function Add() {
     </div>
   );
 }
+EditId.getInitialProps = async (ctx) => {
+  let data = {};
+
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_HOST}api/getItem/${ctx.query.id}`
+  );
+  data = await res.json().then((res) => res);
+
+  if (!data) {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_HOST}api/getItemDuplicates/${ctx.query.id}`
+    );
+    data = await res.json().then((res) => res);
+  }
+
+  return {
+    props: { data },
+  };
+};
