@@ -83,7 +83,7 @@ export default function SubCategoryId({ props }) {
                 </Typography>
                 {props ? (
                   <div
-                    dangerouslySetInnerHTML={{ __html: props.data.description }}
+                    dangerouslySetInnerHTML={{ __html: props.data.shortDescription }}
                   ></div>
                 ) : (
                   ""
