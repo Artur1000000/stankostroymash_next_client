@@ -10,8 +10,8 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { getCookie } from "@/utils/cookies";
 
-const maxLengthShortText = 200;
-const maxLengthText = 1000;
+const maxLengthShortText = 300;
+const maxLengthText = 2000;
 
 export default function Add() {
   const [state, setState] = useState({});

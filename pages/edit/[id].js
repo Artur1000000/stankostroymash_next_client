@@ -10,8 +10,8 @@ import { getCookie } from "@/utils/cookies";
 import CategoryWidget from "@/components/Widgets/CategoryWidget";
 import SubCategoryWidget from "@/components/Widgets/SubCategoryWidget";
 
-const maxLengthShortText = 200;
-const maxLengthText = 1000;
+const maxLengthShortText = 300;
+const maxLengthText = 2000;
 
 export default function EditId({ props }) {
   const [state, setState] = useState({
