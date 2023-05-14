@@ -4,15 +4,15 @@ body {
   margin: 0;
   padding: 0;
   background: #ffffff;
-  font-family: 'Roboto', sans-serif;
-  color:#000000;
+  font-family: "Roboto", sans-serif;
+  color: #000000;
   overflow: hidden;
 }
 
-.image-wrapp{
+.image-wrapp {
   width: 300px;
-  height: 300px; 
-  margin: 5px; 
+  height: 300px;
+  margin: 5px;
   box-sizing: border-box;
   padding: 15px;
   background: #333333;
@@ -21,22 +21,20 @@ body {
   justify-content: center;
   align-items: center;
 }
-.image-block{
+.image-block {
   width: 90%;
   height: 90%;
   display: block;
-
 }
-.image-block:hover{
+.image-block:hover {
   width: 100%;
   height: 100%;
-
 }
-.title-card{
+.title-card {
   width: 100%;
   height: 40px;
   color: #ffffff;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0, 0, 0, 0.5);
   position: absolute;
   bottom: 0px;
   left: 0px;
@@ -45,7 +43,20 @@ body {
   display: flex;
   align-items: center;
 }
-.map{
+
+@media (max-width:1480px) {
+  .image-wrapp {
+    width: 250px;
+    height: 250px;
+  }
+}
+@media (max-width:1200px) {
+  .image-wrapp {
+    width: 200px;
+    height: 200px;
+  }
+}
+.map {
   width: 500px;
   height: 500px;
   background: #333;
@@ -71,7 +82,7 @@ body {
 }
 /* Track */
 ::-webkit-scrollbar-track {
-  background: none; 
+  background: none;
 }
 /* The track NOT covered by the handle.
 ::-webkit-scrollbar-track-piece {
@@ -79,9 +90,9 @@ body {
 }
 /* Corner */
 ::-webkit-scrollbar-corner {
-  background: #999999; 
+  background: #999999;
 }
 /* Resizer */
 ::-webkit-resizer {
-  background: #111111; 
+  background: #111111;
 }

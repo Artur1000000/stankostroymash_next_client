@@ -97,29 +97,27 @@ export default function EditId({ props }) {
         auth: getCookie("token"),
       },
     };
-    if (subCategory) {
-      try {
-        axios
-          .post(
-            `${process.env.NEXT_PUBLIC_API_HOST}api/edit_item`,
-            {
-              id: props.data._id,
-              state,
-              shortText,
-              text,
-              category,
-              subCategory,
-              pathImage,
-              photoPrimary,
-            },
-            config
-          )
-          .then((data) => {
-            router.push(data.data.path);
-          });
-      } catch (error) {
-        console.log(error);
-      }
+    try {
+      axios
+        .post(
+          `${process.env.NEXT_PUBLIC_API_HOST}api/edit_item`,
+          {
+            id: props.data._id,
+            state,
+            shortText,
+            text,
+            category,
+            subCategory,
+            pathImage,
+            photoPrimary,
+          },
+          config
+        )
+        .then((data) => {
+          router.push(data.data.path);
+        });
+    } catch (error) {
+      console.log(error);
     }
   };
 
